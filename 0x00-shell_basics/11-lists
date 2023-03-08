@@ -1,16 +1,2 @@
 #!/bin/bash
-
-# List files in the current directory
-echo "Files in current directory:"
-ls -la
-
-# Move up one directory and list files
-cd ..
-echo "Files in parent directory:"
-ls -la
-
-# List files in /boot directory
-cd /boot
-echo "Files in /boot directory:"
-ls -la
-
+ls -la ../ /boot/
