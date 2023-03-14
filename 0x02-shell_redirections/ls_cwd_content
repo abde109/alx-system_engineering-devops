@@ -1,0 +1,13 @@
+total 44
+-rwxr-xr-x 1 root root 32 Mar 13 16:10 0-hello_world
+-rwxr-xr-x 1 root root 28 Mar 13 16:31 1-confused_smiley
+-rwxr-xr-x 1 root root 28 Mar 13 16:33 2-hellofile
+-rwxr-xr-x 1 root root 39 Mar 13 16:36 3-twofiles
+-rwxr-xr-x 1 root root 35 Mar 13 16:40 4-lastlines
+-rwxr-xr-x 1 root root 35 Mar 13 16:42 5-firstlines
+-rwxr-xr-x 1 root root 40 Mar 13 16:48 6-third_line
+-rwxr-xr-x 1 root root 99 Mar 13 16:58 7-file
+-rwxr-xr-x 1 root root 35 Mar 13 16:58 8-cwd_state
+-rwxr-xr-x 1 root root 59 Mar 13 16:32 gitpush
+-rw-r--r-- 1 root root  0 Mar 13 17:01 ls_cwd_content
+-rw-r--r-- 1 root root 42 Mar 13 16:28 README.md
