@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-# This script configures Ubuntu server with specified IP settings
+# Configures an Ubuntu server with updated localhost and facebook.com IPs
 
-cp /etc/hosts ~/hosts.backup
+cp /etc/hosts /etc/hosts.bak
 
-grep -qxF '127.0.0.2	localhost' /etc/hosts || echo '127.0.0.2	localhost' | tee -a /etc/hosts
-grep -qxF '8.8.8.8	facebook.com' /etc/hosts || echo '8.8.8.8	facebook.com' | tee -a /etc/hosts
+sed -i '/localhost/d' /etc/hosts
+sed -i '/facebook.com/d' /etc/hosts
+
+echo "127.0.0.2 localhost" | tee -a /etc/hosts
+echo "8.8.8.8 facebook.com" | tee -a /etc/hosts
