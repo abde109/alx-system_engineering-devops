@@ -1,7 +1,7 @@
 # This manifest creates a file at /tmp/school with specific properties
 file { 'school':
-  path    => '/tmp/school',
   ensure  => file,
+  path    => '/tmp/school',
   mode    => '0744',
   owner   => 'www-data',
   group   => 'www-data',
