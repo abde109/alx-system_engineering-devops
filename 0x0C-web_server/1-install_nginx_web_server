@@ -3,7 +3,7 @@
 
 # Update and install nginx
 apt-get update
-apt-get install -y nginx
+apt-get -y install nginx
 ufw allow 'Nginx HTTP'
 # Create a simple HTML file to serve
 echo "Hello World!" > /var/www/html/index.html
