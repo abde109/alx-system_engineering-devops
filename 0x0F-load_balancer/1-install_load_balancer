@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Installs and configures HAProxy on a new Ubuntu machine
+
+apt-get update
+apt-get install -y haproxy
+
+cat > /etc/haproxy/haproxy.cfg <<EOF
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend http_front
+    bind *:80
+    stats uri /haproxy?stats
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web-01 370807-web-01:80 check
+    server web-02 370807-web-02:80 check
+EOF
+
+systemctl restart haproxy
