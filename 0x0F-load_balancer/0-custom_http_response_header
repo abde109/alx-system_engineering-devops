@@ -1,15 +1,47 @@
 #!/usr/bin/env bash
-# Configures Nginx to add a custom HTTP response header
+# Sets up a web server with a custom HTTP header and configures it to be identical to an existing server
 
-# Install Nginx if it's not already installed
-sudo apt-get update
-sudo apt-get install -y nginx
+install_nginx() {
+    echo "Installing Nginx..."
+    sudo apt-get -y update
+    sudo apt-get -y install nginx
+    sudo ufw allow 'Nginx HTTP'
+}
 
-# Get the hostname of the server
-HOSTNAME=$(hostname)
+configure_nginx() {
+    echo "Configuring Nginx..."
+    local hostname_var="\$hostname"
 
-# Configure Nginx to add the custom header
-sudo sed -i "/server_name _;/a \\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/sites-available/default
+    local server_block="server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        add_header X-Served-By $hostname_var;
 
-# Restart Nginx to apply the changes
-sudo systemctl restart nginx
+        location / {
+            try_files \$uri \$uri/ =404;
+        }
+
+        error_page 404 /404.html;
+        location = /404.html {
+            internal;
+        }
+    }"
+
+    echo "$server_block" | sudo tee /etc/nginx/sites-available/default
+
+    echo 'Hello World!' | sudo tee /var/www/html/index.html
+    echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+    sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+    sudo service nginx restart
+}
+
+main() {
+    install_nginx
+    configure_nginx
+}
+
+main
