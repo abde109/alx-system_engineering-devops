@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 # Sets up a web server with a custom HTTP header and configures it to be identical to an existing server
 
-sudo apt-get -y update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
+apt-get -y update
+apt-get -y install nginx
 
 hostname_var="\$hostname"
 
@@ -25,10 +24,10 @@ server_block="server {
     }
 }"
 
-echo "$server_block" | sudo tee /etc/nginx/sites-available/default
+echo "$server_block" | tee /etc/nginx/sites-available/default
 
-echo 'Hello World!' | sudo tee /var/www/html/index.html
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+echo 'Hello World!' | tee /var/www/html/index.html
+echo "Ceci n'est pas une page" | tee /var/www/html/404.html
 
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-sudo service nginx restart
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+service nginx restart
