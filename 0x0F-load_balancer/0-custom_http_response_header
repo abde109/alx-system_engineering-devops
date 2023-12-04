@@ -1,47 +1,34 @@
 #!/usr/bin/env bash
 # Sets up a web server with a custom HTTP header and configures it to be identical to an existing server
 
-install_nginx() {
-    echo "Installing Nginx..."
-    sudo apt-get -y update
-    sudo apt-get -y install nginx
-    sudo ufw allow 'Nginx HTTP'
-}
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
 
-configure_nginx() {
-    echo "Configuring Nginx..."
-    local hostname_var="\$hostname"
+hostname_var="\$hostname"
 
-    local server_block="server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-        server_name _;
-        add_header X-Served-By $hostname_var;
+server_block="server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    add_header X-Served-By $hostname_var;
 
-        location / {
-            try_files \$uri \$uri/ =404;
-        }
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
 
-        error_page 404 /404.html;
-        location = /404.html {
-            internal;
-        }
-    }"
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}"
 
-    echo "$server_block" | sudo tee /etc/nginx/sites-available/default
+echo "$server_block" | sudo tee /etc/nginx/sites-available/default
 
-    echo 'Hello World!' | sudo tee /var/www/html/index.html
-    echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+echo 'Hello World!' | sudo tee /var/www/html/index.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
-    sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-    sudo service nginx restart
-}
-
-main() {
-    install_nginx
-    configure_nginx
-}
-
-main
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo service nginx restart
