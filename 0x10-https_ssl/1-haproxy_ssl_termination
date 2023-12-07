@@ -1,0 +1,44 @@
+# Global settings
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+    # Default SSL material locations
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+
+    # Default ciphers to use on SSL-enabled listening sockets.
+    ssl-default-bind-ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
+    ssl-default-bind-options no-sslv3
+
+# Default settings for all proxies
+defaults
+    log global
+    option httplog
+    mode http
+    option forwardfor
+    option http-server-close
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+# Frontend for incoming HTTP traffic
+frontend http-in
+    bind *:80
+    # Redirect HTTP to HTTPS
+    redirect scheme https code 301 if !{ ssl_fc }
+
+# Frontend for incoming HTTPS traffic
+frontend https-in
+    bind *:443 ssl crt /etc/haproxy/certs/yourdomain.com.pem
+    default_backend webservers
+
+# Backend configuration
+backend webservers
+    balance roundrobin
+    server web-01 <web-01-IP>:80 check
+    server web-02 <web-02-IP>:80 check

@@ -1,0 +1,15 @@
+# Frontend configuration for HTTP
+frontend http-in
+    bind *:80
+    # Redirect all HTTP traffic to HTTPS
+    redirect scheme https code 301 if !{ ssl_fc }
+
+# Frontend configuration for HTTPS
+frontend https-in
+    bind *:443 ssl crt /path/to/your/certificate.pem
+    default_backend servers
+
+# Backend servers configuration
+backend servers
+    # Your backend server settings
+    server server1 127.0.0.1:8080 check
