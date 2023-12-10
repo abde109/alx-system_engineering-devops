@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Fix Nginx to listen on port 80
-
 sed -i "s/listen 8080;/listen 80;/" /etc/nginx/sites-available/default
 sudo systemctl restart nginx
 kill -9 "$(cat /var/run/nginx.pid)"
