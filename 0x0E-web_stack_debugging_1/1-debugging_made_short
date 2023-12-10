@@ -2,5 +2,6 @@
 # Fix Nginx to listen on port 80
 
 sed -i "s/listen 8080;/listen 80;/" /etc/nginx/sites-available/default
-sudo service nginx restart
-sudo service nginx status
+service nginx restart
+service nginx status
+kill -9 "$(cat /var/run/nginx.pid)"
