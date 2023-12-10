@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
-# Ensure Nginx is installed and running on port 80
+# Fix Nginx listening on port 80
 
-# Check if Nginx is installed, if not install it
-if ! command -v nginx > /dev/null; then
-    apt-get update
-    apt-get install -y nginx
-fi
+# Ensure the Nginx configuration is correct in /etc/nginx/sites-available/default
+# [Add any necessary sed commands or checks here to ensure the configuration is set to listen on port 80]
 
-# Ensure Nginx is started
-service nginx start
+# Remove the existing symbolic link in sites-enabled, if it exists
+rm -f /etc/nginx/sites-enabled/default
 
-# Fix possible port conflicts and restart Nginx
-sed -i 's/listen [::]:80 default_server;/listen 80 default_server;/' /etc/nginx/sites-available/default
+# Create a new symbolic link
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart Nginx to apply changes
 service nginx restart
+
+# Optionally, add a check here to confirm Nginx is running and listening on port 80
