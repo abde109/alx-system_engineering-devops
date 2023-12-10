@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # Ensure Nginx is installed and running on port 80
 
-# Install Nginx if not present
-which nginx || apt-get update && apt-get install -y nginx
+# Check if Nginx is installed, if not install it
+if ! command -v nginx > /dev/null; then
+    apt-get update
+    apt-get install -y nginx
+fi
 
 # Ensure Nginx is started
 service nginx start
