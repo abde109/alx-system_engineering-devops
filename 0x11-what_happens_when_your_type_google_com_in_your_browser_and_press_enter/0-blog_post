@@ -1,0 +1,34 @@
+Introduction
+This report aims to demystify the complex process that occurs when a URL, specifically https://www.google.com, is entered into a web browser and Enter is pressed. This process involves several steps, from the initial DNS request to the final display of the webpage.
+
+1. DNS Request
+Function: The Domain Name System (DNS) translates the domain name www.google.com into an IP address recognizable by the computer.
+Process: The browser checks its cache for the DNS record. If not found, it queries a DNS server for the IP address.
+2. TCP/IP
+Role: Transmission Control Protocol (TCP) and Internet Protocol (IP) establish a pathway for data exchange.
+Connection: TCP sets up a reliable connection between the browser and the server, ensuring data packets are sent and received in order.
+3. Firewall
+Purpose: Firewalls monitor and control incoming and outgoing network traffic based on predetermined security rules.
+Security: Ensures the user's request is secure and blocks any harmful traffic.
+4. HTTPS/SSL
+HTTPS: Stands for HyperText Transfer Protocol Secure, providing a secure connection.
+SSL Handshake: Involves the exchange of SSL certificates for encrypting the data, ensuring privacy and data integrity.
+5. Load Balancer
+Objective: To distribute network traffic across multiple servers.
+Load Balancing: This prevents any single server from being overwhelmed, ensuring efficient handling of requests and maintaining website performance.
+6. Web Server
+Role: A web server handles the HTTP request and sends back the requested HTML content.
+Static Content: It serves static content like HTML, CSS, and JavaScript files.
+7. Application Server
+Function: Manages the application's operations between users and an organization's backend business applications or databases.
+Dynamic Content: Executes backend logic to dynamically generate webpage content.
+8. Database
+Usage: Stores and retrieves data as required by the application server.
+Interaction: The application server queries the database for information, which is then used to build the webpage.
+Conclusion
+This report outlined the intricate process involved from the moment https://www.google.com is entered in the browser to when the Google homepage is displayed. Each step, from DNS lookup to database interaction, plays a vital role in delivering web content swiftly and securely to users.
+
+Author's Note
+This overview provides a glimpse into the complex web of technologies and protocols that power our everyday internet use. Understanding these mechanisms offers insight into the remarkable capabilities and challenges of modern web networking.
+
+Feel free to use this report as a base for your blog post or as an educational tool. Remember, each of these topics can be expanded further to provide more in-depth information based on the target audience's technical level.

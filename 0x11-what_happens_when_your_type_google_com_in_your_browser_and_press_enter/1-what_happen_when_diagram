@@ -1,0 +1,25 @@
+
+To complete these tasks, you'll need to create a diagram illustrating the web request process and contribute to an existing GitHub project with meaningful content. Here's how you can approach these tasks:
+
+Task 1: Create a Diagram
+Steps to Create the Diagram:
+Choose a Tool: Use a diagramming tool like Gliffy, draw.io, or any other that you're comfortable with.
+
+Diagram Components: Your diagram should include the following components:
+
+DNS Resolution
+Request hitting the server IP on the appropriate port
+Encrypted Traffic (indicating HTTPS/SSL)
+Traffic passing through a Firewall
+Distribution of the request via a Load Balancer
+Web Server responding with a webpage
+Application Server generating the webpage
+Application Server requesting data from the Database
+Design the Flow: Arrange these components in the order they are used in the process. Use arrows to indicate the direction of data flow.
+
+Annotations: Add brief descriptions or labels to each component to explain their role.
+
+Export and Host the Diagram: Once your diagram is complete, export it as an image file and host it on a platform like Imgur, Dropbox, or directly on GitHub if you’re using draw.io.
+
+Submission:
+Share the URL of your diagram image in your answer file and in the required field.
