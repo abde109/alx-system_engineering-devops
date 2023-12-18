@@ -1,0 +1,38 @@
+# NAT table configuration
+*nat
+:PREROUTING ACCEPT [0:0]
+
+# Forward traffic from TCP port 8080 to port 80
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
+# Commit NAT rules
+COMMIT
+
+# Filter table configuration
+*filter
+:ufw-before-input - [0:0]
+:ufw-before-output - [0:0]
+:ufw-before-forward - [0:0]
+:ufw-not-local - [0:0]
+
+# Allow loopback traffic
+-A ufw-before-input -i lo -j ACCEPT
+-A ufw-before-output -o lo -j ACCEPT
+
+# Handle established connections
+-A ufw-before-input -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A ufw-before-output -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A ufw-before-forward -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Drop invalid packets
+-A ufw-before-input -m conntrack --ctstate INVALID -j DROP
+
+# Custom ICMP handling - limited to echo requests
+-A ufw-before-input -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+-A ufw-before-forward -p icmp -m icmp --icmp-type echo-request -j ACCEPT
+
+# Reject other non-local packets
+-A ufw-not-local -j REJECT
+
+# Commit filter rules
+COMMIT
