@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # This script runs the 'whoami' command under the user passed as an argument
 
-if [ $# -eq 1 ]; then
-    if id "$1" &>/dev/null; then
-        su - "$1" -c 'whoami'
-    else
-        echo "Error: User '$1' does not exist."
-    fi
-else
+if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <username>"
+    exit 1
 fi
+
+if ! id "$1" &>/dev/null; then
+    echo "Error: User '$1' does not exist."
+    exit 2
+fi
+
+su - "$1" -s /bin/bash -c 'whoami'
