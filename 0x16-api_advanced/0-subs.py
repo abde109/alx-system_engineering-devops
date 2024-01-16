@@ -10,5 +10,5 @@ def number_of_subscribers(subreddit):
         'User-Agent': 'alx-system_engineering-devops:v1.0 (by /u/abde109)'}
     response = requests.get(url, headers=headers, allow_redirects=False)
     if response.status_code == 200:
-        return response.json().get('data').get('subscribers')
+        return response.json().get('data', {}).get('subscribers', 0)
     return (0)
