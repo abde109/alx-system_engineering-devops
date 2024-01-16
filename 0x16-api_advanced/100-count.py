@@ -9,7 +9,8 @@ def count_words(subreddit, word_list, after='', word_count={}):
         word_list = [word.lower() for word in word_list]
         word_count = {word: 0 for word in word_list}
 
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}"
+    base_url = "https://www.reddit.com/r/"
+    url = f"{base_url}{subreddit}/hot.json?limit=100&after={after}"
     headers = {"User-Agent": "CustomUserAgent/1.0"}
     response = requests.get(url, headers=headers, allow_redirects=False)
 
@@ -27,7 +28,9 @@ def count_words(subreddit, word_list, after='', word_count={}):
 
     if not after:
         sorted_words = sorted(
-            [(count, word) for word, count in word_count.items() if count > 0], reverse=True)
+            [(count, word) for word, count in word_count.items() if count > 0],
+            key=lambda x: (-x[0], x[1])
+        )
         for count, word in sorted_words:
             print(f"{word}: {count}")
         return
