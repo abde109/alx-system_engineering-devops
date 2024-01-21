@@ -10,9 +10,6 @@ exec { 'fix-wordpress-php-extension':
   # Specify the command path
   path        => ['/bin', '/usr/bin'],
 
-  # Execute this resource only when notified by another resource
-  refreshonly => true,
-
   # Notify Apache service to restart if this exec is triggered
   notify      => Service['apache2'],
 }
