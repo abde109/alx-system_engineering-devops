@@ -1,29 +1,15 @@
-class nginx_config_fix {
-  # Ensure Nginx is installed and running
-  package { 'nginx':
-    ensure => installed,
-  }
+# Increases the amount of traffic an Nginx server can handle.
 
-  service { 'nginx':
-    ensure     => running,
-    enable     => true,
-    require    => Package['nginx'],
-    subscribe  => File['/etc/nginx/nginx.conf'],
-  }
+# This is useful for high traffic sites.
+exec { 'fix--for-nginx':
+  command => 'sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/usr/local/bin/:/bin/:/usr/sbin/',
+  onlyif  => 'grep -q "15" /etc/default/nginx',
+} ->
 
-  # Modify Nginx configuration to handle high concurrency
-  file { '/etc/nginx/nginx.conf':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('path/to/your/nginx.conf.erb'),
-    notify  => Service['nginx'],
-  }
-
-  # Custom configuration template with increased limits
-  # The nginx.conf.erb should be a template file that sets parameters such as:
-  # worker_processes, worker_connections, and multi_accept within the events block.
+# Restart Nginx if the above exec is run.
+exec { 'nginx-restart':
+  command => 'service nginx restart',
+  path    => '/usr/local/bin/:/bin/:/usr/sbin/',
+  refreshonly => true,
 }
-
-include nginx_config_fix
