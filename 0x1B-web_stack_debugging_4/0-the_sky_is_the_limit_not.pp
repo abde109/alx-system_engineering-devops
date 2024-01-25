@@ -9,7 +9,7 @@ exec { 'fix--for-nginx':
 
 # Restart Nginx if the above exec is run.
 exec { 'nginx-restart':
-  command => 'service nginx restart',
+  command => 'nginx restart',
   path    => '/etc/init.d/',
   refreshonly => true,
 }
