@@ -1,31 +1,13 @@
-# 0-the_sky_is_the_limit_not.pp
-# Puppet manifest to increase Nginx's capacity to handle high concurrency by tuning the worker connections
+# This is a hack to get around the fact that the nginx module doesn't support
 
-class nginx_tuning {
-
-  # Ensure the nginx service is running
-  service { 'nginx':
-    ensure    => running,
-    enable    => true,
-    subscribe => File['/etc/nginx/nginx.conf'],
-  }
-
-  # Modify nginx.conf to increase worker connections and set multi_accept
-  file { '/etc/nginx/nginx.conf':
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('nginx/nginx.conf.erb'),
-    notify  => Service['nginx'],
-  }
-
-  # Ensure the nginx service is reloaded to apply the new configuration
-  exec { 'reload-nginx':
-    command     => '/usr/sbin/service nginx reload',
-    refreshonly => true,
-    subscribe   => File['/etc/nginx/nginx.conf'],
-  }
+# This is a hack to get around the fact that the nginx module doesn't support
+exec { 'fix--for-nginx':
+  command => 'sed -i "s/15/4096/" /etc/default/nginx',
+  path    => '/bin:/usr/bin'
 }
 
-include nginx_tuning
+# This is a hack to get around the fact that the nginx module doesn't support
+exec { 'nginx-restart':
+  command => 'nginx restart',
+  path    => '/etc/init.d/'
+}
