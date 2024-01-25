@@ -3,13 +3,13 @@
 # This is useful for high traffic sites.
 exec { 'fix--for-nginx':
   command => 'sed -i "s/15/4096/" /etc/default/nginx',
-  path    => '/usr/local/bin/:/bin/:/usr/sbin/',
+  path    => '/usr/local/bin/:/bin/',
   onlyif  => 'grep -q "15" /etc/default/nginx',
 } ->
 
 # Restart Nginx if the above exec is run.
 exec { 'nginx-restart':
   command => 'service nginx restart',
-  path    => '/usr/local/bin/:/bin/:/usr/sbin/',
+  path    => '/etc/init.d/',
   refreshonly => true,
 }
