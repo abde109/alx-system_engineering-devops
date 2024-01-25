@@ -1,13 +1,31 @@
-# Increases the amount of traffic an Nginx server can handle.
+# 0-the_sky_is_the_limit_not.pp
+# Puppet manifest to increase Nginx's capacity to handle high concurrency by tuning the worker connections
 
-# This is useful for high traffic sites.
-exec { 'fix--for-nginx':
-  command => 'sed -i "s/15/4096/" /etc/default/nginx',
-  path    => '/usr/local/bin/:/bin/'
-} ->
+class nginx_tuning {
 
-# Restart Nginx if the above exec is run.
-exec { 'nginx-restart':
-  command => 'nginx restart',
-  path    => '/etc/init.d/'
+  # Ensure the nginx service is running
+  service { 'nginx':
+    ensure    => running,
+    enable    => true,
+    subscribe => File['/etc/nginx/nginx.conf'],
+  }
+
+  # Modify nginx.conf to increase worker connections and set multi_accept
+  file { '/etc/nginx/nginx.conf':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('nginx/nginx.conf.erb'),
+    notify  => Service['nginx'],
+  }
+
+  # Ensure the nginx service is reloaded to apply the new configuration
+  exec { 'reload-nginx':
+    command     => '/usr/sbin/service nginx reload',
+    refreshonly => true,
+    subscribe   => File['/etc/nginx/nginx.conf'],
+  }
 }
+
+include nginx_tuning
