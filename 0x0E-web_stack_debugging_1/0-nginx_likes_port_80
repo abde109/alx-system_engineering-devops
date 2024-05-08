@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Fix Nginx listening on port 80
+
+# Ensure the Nginx configuration is correct in /etc/nginx/sites-available/default
+# [Add any necessary sed commands or checks here to ensure the configuration is set to listen on port 80]
+
+# Remove the existing symbolic link in sites-enabled, if it exists
+rm -f /etc/nginx/sites-enabled/default
+
+# Create a new symbolic link
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Restart Nginx to apply changes
+service nginx restart
+
+# Optionally, add a check here to confirm Nginx is running and listening on port 80

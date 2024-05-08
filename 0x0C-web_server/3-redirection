@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Configures an Nginx server with a redirection from /redirect_me
+
+# Update packages and install Nginx
+apt-get update -y
+apt-get install -y nginx
+
+# Allow Nginx HTTP through the firewall
+ufw allow 'Nginx HTTP'
+
+# Create a basic index page
+echo 'Holberton School' > /var/www/html/index.nginx-debian.html
+
+# Configure redirection
+sed -i '/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# Start Nginx service
+service nginx start

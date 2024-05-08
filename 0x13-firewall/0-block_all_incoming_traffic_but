@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Custom Firewall Setup Script
+# Blocks all incoming traffic except on TCP ports 22 (SSH), 443 (HTTPS), and 80 (HTTP).
+
+# Install UFW if it's not present
+apt-get update && apt-get install -y ufw
+
+# Ensure IPv6 is enabled in UFW
+sed -i 's/IPV6=no/IPV6=yes/' /etc/default/ufw
+
+# Reset UFW and apply new rules
+ufw disable
+ufw enable
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow 22/tcp
+ufw allow 443/tcp
+ufw allow 80/tcp

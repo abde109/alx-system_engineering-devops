@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Installs nginx and sets up basic configuration
+
+# Update and install nginx
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+# Create a simple HTML file to serve
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart nginx without using systemctl
+service nginx restart

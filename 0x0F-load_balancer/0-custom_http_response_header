@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Sets up a web server with a custom HTTP header and configures it to be identical to an existing server
+
+apt-get -y update
+apt-get -y install nginx
+
+hostname_var="\$hostname"
+
+server_block="server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    add_header X-Served-By $hostname_var;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+    }
+}"
+
+echo "$server_block" | tee /etc/nginx/sites-available/default
+
+echo 'Hello World!' | tee /var/www/html/index.html
+echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+service nginx restart
