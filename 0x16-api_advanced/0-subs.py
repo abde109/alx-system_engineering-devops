@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Return the number of subscribers for a givening subreddit"""
+"""
+Return the number of subscribers for a givening subreddit
+"""
 import requests
 
 
